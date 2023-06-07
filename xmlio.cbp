@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes" ?>
+<CodeBlocks_project_file>
+	<FileVersion major="1" minor="6" />
+	<Project>
+		<Option title="xmlio" />
+		<Option pch_mode="2" />
+		<Option compiler="gcc" />
+		<Build>
+			<Target title="Debug Win32">
+				<Option output="xmlio" prefix_auto="1" extension_auto="1" />
+				<Option working_dir="" />
+				<Option type="2" />
+				<Option compiler="gcc" />
+				<Option createDefFile="1" />
+				<Compiler>
+					<Add option="-DWIN32" />
+					<Add option="-D_DEBUG" />
+					<Add option="-D_LIB" />
+					<Add directory="expat/xmlparse" />
+				</Compiler>
+			</Target>
+			<Target title="Release Win32">
+				<Option output="xmlio" prefix_auto="1" extension_auto="1" />
+				<Option working_dir="" />
+				<Option type="2" />
+				<Option compiler="gcc" />
+				<Compiler>
+					<Add option="-DWIN32" />
+					<Add option="-DNDEBUG" />
+					<Add option="-D_LIB" />
+					<Add directory="expat/xmlparse" />
+				</Compiler>
+			</Target>
+			<Target title="Release Linux">
+				<Option output="xmlio" prefix_auto="1" extension_auto="1" />
+				<Option working_dir="" />
+				<Option type="2" />
+				<Option compiler="gcc" />
+				<Compiler>
+					<Add option="-fPIC" />
+					<Add option="-DNDEBUG" />
+					<Add option="-D_LIB" />
+					<Add directory="expat/xmlparse" />
+				</Compiler>
+			</Target>
+		</Build>
+		<Compiler>
+			<Add option="-fPIC" />
+		</Compiler>
+		<Unit filename="xmlconfig.h" />
+		<Unit filename="xmlfile.cpp" />
+		<Unit filename="xmlfile.h" />
+		<Unit filename="xmlfile_c.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="xmlinput.cpp" />
+		<Unit filename="xmlinput.h" />
+		<Unit filename="xmlinput_c.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="xmlinputp.h" />
+		<Unit filename="xmloutput.cpp" />
+		<Unit filename="xmloutput.h" />
+		<Unit filename="xmlstream.h" />
+		<Extensions />
+	</Project>
+</CodeBlocks_project_file>
