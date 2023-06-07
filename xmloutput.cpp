@@ -36,7 +36,7 @@ size_t strlen (const char *str)
 
   /* Handle the first few characters by reading one character at a time.
      Do this until CHAR_PTR is aligned on a longword boundary.  */
-  for (char_ptr = str; ((unsigned long int) char_ptr
+  for (char_ptr = str; ((size_t) char_ptr
                         & (sizeof (longword) - 1)) != 0;
        ++char_ptr)
     if (*char_ptr == '\0')
