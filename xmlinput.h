@@ -30,6 +30,8 @@
 	extern "C" {
 #endif
 
+double XMLUtils_atof_l(const char *s, char **sret);
+
 /*
 ------------------------------------------------------------------------------
 BEGIN C INTERFACE

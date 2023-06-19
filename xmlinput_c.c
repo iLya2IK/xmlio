@@ -45,6 +45,86 @@ typedef enum XmlToken_
 	XML_TOK_DOCTYPE			/* <!DOCTYPE xxx [ */
 } XmlToken;
 
+double XMLUtils_atof_l(const char *s, char **sret)
+{
+    long double r = 0.0; // result
+    int e = 0;           // exponent
+    long double d;       // scale
+    int sign  = 1;       // +- 1.0
+    int esign = 1;
+    int i;
+    int flags=0;
+
+    while ((*s == ' ') || (*s == '\t')) s++;
+
+    if (*s == '+') s++;
+    else if (*s == '-')
+    {
+        sign = -1;
+        s++;
+    }
+
+    while ((*s >= '0') && (*s <= '9'))
+    {
+        flags |= 1;
+        r *= 10.0;
+        r += *s - '0';
+        s++;
+    }
+
+    if (*s == '.')
+    {
+        d = 0.1L;
+        s++;
+        while ((*s >= '0') && (*s <= '9'))
+        {
+            flags |= 2;
+            r += d * (*s - '0');
+            s++;
+            d *= 0.1L;
+        }
+    }
+
+    if (flags == 0)
+    {
+        if (sret) *sret = (char *)s;
+        return 0;
+    }
+
+    if ((*s == 'e') || (*s == 'E'))
+    {
+        s++;
+        if (*s == '+') s++;
+        else if (*s == '-')
+        {
+            s++;
+            esign = -1;
+        }
+        if ((*s < '0') || (*s > '9'))
+        {
+            if (sret) *sret = (char *)s;
+            return r;
+        }
+
+        while ((*s >= '0') && (*s <= '9'))
+        {
+            e *= 10;
+            e += *s - '0';
+            s++;
+        }
+
+
+    }
+
+    if (esign < 0)
+        for (i = 1; i <= e; i++) r *= 0.1L;
+    else
+        for (i = 1; i <= e; i++) r *= 10.0;
+
+    if (sret) *sret = (char *)s;
+    return r * sign;
+}
+
 
 /* return !0 if the strings match, 0 if not */
 int XML_StringsMatch(const XML_Char *s1, const XML_Char *s2)
@@ -602,7 +682,7 @@ static XML_Error floatHandler(XML_Input *input, XML_Element *elem, const XML_Han
 	tmp[len] = 0;
 	if (error == XML_Error_None)
 	{
-		float value = (float)atof(tmp);
+		float value = (float)XMLUtils_atof_l(tmp, NULL);
 		float *result = handler->info.Float.result ? handler->info.Float.result : (float *)((char *)userData + handler->offset);
 		if (handler->info.Float.maxVal != 0 || handler->info.Float.minVal != 0)
 		{
@@ -625,7 +705,7 @@ static XML_Error doubleHandler(XML_Input *input, XML_Element *elem, const XML_Ha
 	tmp[len] = 0;
 	if (error == XML_Error_None)
 	{
-		double value = atof(tmp);
+		double value = XMLUtils_atof_l(tmp, NULL);
 		double *result = handler->info.Double.result ? handler->info.Double.result : (double *)((char *)userData + handler->offset);
 		/* minVal and maxVal are POINTERS to doubles */
 		if (handler->info.Double.minVal != NULL)
@@ -1535,12 +1615,12 @@ unsigned int XML_AttrGetUInt(const XML_Attribute *attr, unsigned int defValue)
 
 float XML_AttrGetFloat(const XML_Attribute *attr, float defValue)
 {
-	return attr ? (float)atof(attr->value) : defValue;
+	return attr ? (float)XMLUtils_atof_l(attr->value, NULL) : defValue;
 }
 
 double XML_AttrGetDouble(const XML_Attribute *attr, double defValue)
 {
-	return attr ? atof(attr->value) : defValue;
+	return attr ? XMLUtils_atof_l(attr->value, NULL) : defValue;
 }
 
 int XML_AttrGetBoolean(const XML_Attribute *attr, int defValue)
