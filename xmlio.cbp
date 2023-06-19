@@ -13,6 +13,7 @@
 				<Option compiler="gcc" />
 				<Option createDefFile="1" />
 				<Compiler>
+					<Add option="-fexceptions" />
 					<Add option="-DWIN32" />
 					<Add option="-D_DEBUG" />
 					<Add option="-D_LIB" />
@@ -25,6 +26,7 @@
 				<Option type="2" />
 				<Option compiler="gcc" />
 				<Compiler>
+					<Add option="-fexceptions" />
 					<Add option="-DWIN32" />
 					<Add option="-DNDEBUG" />
 					<Add option="-D_LIB" />
@@ -38,6 +40,7 @@
 				<Option compiler="gcc" />
 				<Compiler>
 					<Add option="-fPIC" />
+					<Add option="-fexceptions -frtti" />
 					<Add option="-DNDEBUG" />
 					<Add option="-D_LIB" />
 					<Add directory="expat/xmlparse" />
@@ -51,12 +54,12 @@
 		<Unit filename="xmlfile.cpp" />
 		<Unit filename="xmlfile.h" />
 		<Unit filename="xmlfile_c.c">
-			<Option compilerVar="CC" />
+			<Option compilerVar="CPP" />
 		</Unit>
 		<Unit filename="xmlinput.cpp" />
 		<Unit filename="xmlinput.h" />
 		<Unit filename="xmlinput_c.c">
-			<Option compilerVar="CC" />
+			<Option compilerVar="CPP" />
 		</Unit>
 		<Unit filename="xmlinputp.h" />
 		<Unit filename="xmloutput.cpp" />
